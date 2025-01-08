@@ -10,5 +10,6 @@ public interface ReservaDao {
 	List<Reserva> buscarReservasPorUsuario(Usuario usuario);
 	int guardarReserva(Reserva reserva);
 	int eliminarReserva(Reserva reserva);
+	Reserva buscarPorIdReserva(int idReserva);
 	
 }

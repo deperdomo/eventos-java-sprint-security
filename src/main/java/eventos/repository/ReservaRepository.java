@@ -10,5 +10,6 @@ import eventos.entidades.Usuario;
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 	
 	List<Reserva> findByUsuario(Usuario usuario);
+	Reserva findByIdReserva(int idReserva);
 
 }

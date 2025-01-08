@@ -32,4 +32,9 @@ public class ReservaDaoIplJpaMy8 implements ReservaDao {
 		return 1;
 	}
 
+	@Override
+	public Reserva buscarPorIdReserva(int idReserva) {
+		return rrepo.findByIdReserva(idReserva);
+	}
+
 }

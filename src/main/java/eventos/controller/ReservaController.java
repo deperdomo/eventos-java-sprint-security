@@ -9,13 +9,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import eventos.dao.EventoDao;
 import eventos.dao.ReservaDao;
 import eventos.dao.UsuarioDao;
+import eventos.entidades.Evento;
 import eventos.entidades.Reserva;
+import eventos.entidades.Tipo;
 import eventos.entidades.Usuario;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
@@ -26,6 +32,8 @@ public class ReservaController {
 	ReservaDao rdao;
 	@Autowired
 	UsuarioDao udao;
+	@Autowired
+	EventoDao edao;
 	
 	@GetMapping("")
 	public String getReservaPage(Model model) {
@@ -45,4 +53,17 @@ public class ReservaController {
 		return "reservas";
 	}
 	
+	@PostMapping("/editar/{idReserva}")
+    public String agregarEditado(int cantidad, Model model, @PathVariable int idReserva) {
+		
+        Reserva reserva = rdao.buscarPorIdReserva(idReserva);
+        reserva.setCantidad(cantidad);
+        
+        if (rdao.guardarReserva(reserva)==1)
+        	model.addAttribute("mensaje", "Reserva editada");
+        else
+        	model.addAttribute("mensaje", "Reserva NO editada");
+
+            return "redirect:/reserva";
+    }
 }

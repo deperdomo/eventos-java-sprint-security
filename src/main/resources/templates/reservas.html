@@ -117,16 +117,24 @@
                 </thead>
                 <tbody>
                     <tr th:each="reserva : ${reservas}">
-                        <td th:text="${reserva.evento.nombre}">Nombre del Evento</td>
-                        <td th:text="${reserva.evento.fechaInicio}">2024-12-23</td>
-                        <td th:text="${reserva.precioVenta}">50.00</td>
-                        <td th:text="${reserva.cantidad}">2</td>
+                        <td th:text="${reserva.evento.nombre}"></td>
+                        <td th:text="${reserva.evento.fechaInicio}"></td>
+                        <td th:text="${reserva.precioVenta}"></td>
+                        <td>
+                            <form th:action="@{/reserva/editar/{idReserva}(idReserva=${reserva.idReserva})}" method="post" class="d-inline">
+                                <input type="hidden" name="idReserva" th:value="${reserva.idReserva}" />
+                                <input type="hidden" name="idevento" th:value="${reserva.evento.idEvento}" />
+                                <select class="form-select d-inline w-auto" name="cantidad" required>
+                                    <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}" th:selected="${i == reserva.cantidad}"></option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-save" title="Guardar"></i>
+                                </button>
+                            </form>
+                        </td>
                         <td>
                             <a th:href="@{/reserva/cancelar/{idReserva}(idReserva=${reserva.idReserva})}" class="icon-link">
                                 <i class="bi bi-x-circle text-danger" title="Cancelar"></i>
-                            </a>
-                            <a th:href="@{/reserva/editar/{idReserva}(idReserva=${reserva.idReserva})}" class="icon-link">
-                                <i class="bi bi-pencil text-warning" title="Editar"></i>
                             </a>
                         </td>
                     </tr>
