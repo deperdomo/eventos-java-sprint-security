@@ -83,7 +83,7 @@
                         <a class="nav-link" th:href="@{/usuario}">Usuarios</a>
                     </li>
                     <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
-                        <a class="nav-link" href="#">Perfiles</a>
+                        <a class="nav-link" th:href="@{/perfil}">Perfiles</a>
                     </li>
                     <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
                         <a class="nav-link" th:href="@{/tipo}">Tipos de Evento</a>

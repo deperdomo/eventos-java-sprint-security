@@ -7,5 +7,6 @@ import eventos.entidades.Perfil;
 public interface PerfilRepository extends JpaRepository<Perfil, Integer> {
 	
 	Perfil findByNombre(String nombre);
+	Perfil findByIdPerfil(int idPerfil);
 
 }
