@@ -89,9 +89,9 @@ INSERT INTO USUARIO_PERFILES (USERNAME, ID_PERFIL) VALUES
 
 -- Insertar datos en la tabla EVENTOS
 INSERT INTO EVENTOS (NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_FIN, DURACION, DIRECCION, ESTADO, DESTACADO, AFORO_MAXIMO, MINIMO_ASISTENCIA, PRECIO, ID_TIPO) VALUES
-('Taller de Java', 'Aprende los fundamentos de Java', '2024-01-15','2024-02-15', 3, 'Calle Programación, 1', 'ACEPTADO', 'S', 50, 10, 100.00, 2),
-('Seminario de Negocios', 'Tendencias en el mundo empresarial', '2024-02-20','2024-03-15', 1, 'Calle Negocios, 10', 'TERMINADO', 'N', 100, 20, 200.00, 3),
-('Conferencia de Tecnología', 'Explora las nuevas tecnologías del mercado', '2024-03-10','2024-04-15', 2, 'Calle Innovación, 15', 'CANCELADO', 'N', 200, 30, 150.00, 1);
+('Taller de Java', 'Aprende los fundamentos de Java', '2025-01-15','2025-02-15', 3, 'Calle Programación, 1', 'ACEPTADO', 'S', 50, 10, 100.00, 2),
+('Seminario de Negocios', 'Tendencias en el mundo empresarial', '2025-02-20','2025-03-15', 1, 'Calle Negocios, 10', 'TERMINADO', 'N', 100, 20, 200.00, 3),
+('Conferencia de Tecnología', 'Explora las nuevas tecnologías del mercado', '2025-03-10','2025-04-15', 2, 'Calle Innovación, 15', 'CANCELADO', 'N', 200, 30, 150.00, 1);
 
 -- Insertar datos en la tabla RESERVAS
 INSERT INTO RESERVAS (ID_EVENTO, USERNAME, PRECIO_VENTA, OBSERVACIONES, CANTIDAD) VALUES
