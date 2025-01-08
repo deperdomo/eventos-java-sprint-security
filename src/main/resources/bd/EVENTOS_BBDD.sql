@@ -97,5 +97,8 @@ INSERT INTO EVENTOS (NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_FIN, DURACION, DIR
 INSERT INTO RESERVAS (ID_EVENTO, USERNAME, PRECIO_VENTA, OBSERVACIONES, CANTIDAD) VALUES
 (1, 'deivi', 90.00, 'Asiento preferencial', 2),
 (2, 'tomas', 180.00, 'Entrada regular', 1),
-(3, 'ana', 135.00, 'Promoción de estudiante', 1);
+(3, 'ana', 135.00, 'Promoción de estudiante', 1),
+(1, 'tomas', 90.00, 'Asiento regular', 1),
+(2, 'ana', 180.00, 'Entrada VIP', 2),
+(3, 'deivi', 135.00, 'Promoción de estudiante', 1);
 
