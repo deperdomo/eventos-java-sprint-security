@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar-custom {
+            background-color: #007bff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .nav-link, 
+        .navbar-custom .navbar-brand {
+            color: #fff;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #e9ecef;
+        }
+        .table-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        table.table {
+            margin-top: 20px;
+        }
+        table.table th {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+        }
+        table.table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .icon-link {
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .icon-link:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+        h1, h3 {
+            color: #333;
+        }
+        table.table tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav me-auto">
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" href="#">Perfiles</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" th:href="@{/tipo}">Tipos de Evento</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Eventos</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Inicio Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/registro}">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}" href="#">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container mt-5">
+     	<h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
+    	<a th:href="@{/registro}" class="btn btn-primary">Nuevo usuario</a>
+        <h1 class="mb-4 text-center">Lista de Usuarios</h1>
+        <div class="table-container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>                   
+                        <th>Dirección</th>
+                        <th>Enabled</th>
+                        <th>Username</th>
+                        <th>Fecha de registro</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usu : ${usuarios}">
+                        <td th:text="${usu.nombre}"></td>
+                        <td th:text="${usu.apellidos}"></td>
+                        <td th:text="${usu.email}"></td>
+                        <td th:text="${usu.direccion}"></td>
+                        <td th:text="${usu.enabled}"></td>
+                        <td th:text="${usu.username}"></td>
+                        <td th:text="${usu.fechaRegistro}"></td>
+                        <td>
+                            <a th:href="@{/usuario/editar/{username}(username=${usu.username})}" class="icon-link">
+                                <i class="bi bi-pencil text-warning" title="Editar"></i>
+                            </a>
+                            <a th:href="@{/usuario/cancelar/{username}(username=${usu.username})}" class="icon-link">
+                                <i class="bi bi-x-circle text-danger" title="Cancelar"></i>
+                            </a>
+                            <a th:href="@{/usuario/eliminar/{username}(username=${usu.username})}" class="icon-link">
+                                <i class="bi bi-trash text-secondary" title="Eliminar"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

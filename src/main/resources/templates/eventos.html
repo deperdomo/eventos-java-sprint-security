@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eventos</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar-custom {
+            background-color: #007bff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .nav-link,
+        .navbar-custom .navbar-brand {
+            color: #fff;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom {
+            color: #e9ecef;
+        }
+        .table-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        table.table {
+            margin-top: 20px;
+        }
+        table.table th {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+        }
+        table.table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .icon-link {
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .icon-link:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+        h1, h3 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" th:href="@{/usuario}">Usuarios</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" href="#">Perfiles</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
+                        <a class="nav-link" th:href="@{/tipo}">Tipos de Evento</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tipos de Evento</a>
+                        <ul class="dropdown-menu">
+                            <li th:each="tipo : ${tipos}">
+                                <a class="dropdown-item" th:href="@{/evento/tipo/{idTipo}(idTipo=${tipo.idTipo})}" th:text="${tipo.nombre}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Eventos
+                        </a>
+                        <ul sec:authorize="hasRole('ROLE_CLIENTE')" class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/evento/todos}">Todos</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/destacados}">Destacados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/cancelados}">Cancelados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/terminados}">Terminados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/activos}">Activos</a></li>
+                        </ul>
+                   </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/reserva}">Mis reservas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li sec:authorize="!isAuthenticated()" class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Inicio Sesión</a>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()" class="nav-item">
+                        <a class="nav-link" th:href="@{/registro}">Registro</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
+        <div class="text-end">
+            <a class="btn btn-primary" th:href="@{/evento/agregar}">Nuevo evento</a>
+        </div>
+        <div class="table-container mt-4">
+            <h1 class="text-center mb-4">Lista de Eventos</h1>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Aforo Máximo</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Precio</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="evento : ${eventos}">
+                        <td th:text="${evento.nombre}">Nombre del Evento</td>
+                        <td th:text="${evento.aforoMaximo}">100</td>
+                        <td th:text="${evento.fechaInicio}">2024-12-23</td>
+                        <td th:text="${evento.precio}">50.00</td>
+                        <td>
+                            <a th:href="@{/evento/editar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                                <i class="bi bi-pencil text-warning" title="Editar"></i>
+                            </a>
+                            <a th:href="@{/evento/cancelar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                                <i class="bi bi-x-circle text-danger" title="Cancelar"></i>
+                            </a>
+                            <a th:href="@{/evento/eliminar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                                <i class="bi bi-trash text-secondary" title="Eliminar"></i>
+                            </a>
+                            <a th:href="@{/evento/detalle/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                                <i class="bi bi-eye text-primary" title="Detalle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
