@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import eventos.dao.EventoDao;
@@ -92,7 +93,7 @@ public class EventoController {
 	}
 	
 	@PostMapping("/agregar")
-	public String procAgregar(Evento evento, RedirectAttributes ratt, int idTipo) {
+	public String procAgregar(Evento evento, RedirectAttributes ratt, @RequestParam int idTipo) {
 		System.out.println("Este es el idTipo: "+ idTipo);
 		System.out.println("Este es el evento: "+ evento);
 		Tipo tipo = tdao.buscarPorId(idTipo);
@@ -150,12 +151,14 @@ public class EventoController {
 	@GetMapping("/eliminar/{idEvento}")
     public String eliminar( RedirectAttributes ratt, @PathVariable int idEvento) {
 		Evento evento = edao.buscarPorId(idEvento);
-       
-        if (edao.eliminarEvento(evento)==1)
+       try {
+		if (edao.eliminarEvento(evento)==1)
         	ratt.addFlashAttribute("mensaje", "Evento eliminado");
         else
         	ratt.addFlashAttribute("mensaje", "Eveto NO eliminado");
-
+	} catch (Exception e) {
+		ratt.addFlashAttribute("mensaje", "Este evento tiene reservas");
+	}
             return "redirect:/";
     }
 	

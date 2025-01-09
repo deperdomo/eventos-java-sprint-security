@@ -100,9 +100,6 @@
     <!-- Contenido -->
     <div class="container mt-5">
         <h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
-        <div class="text-end">
-            <a class="btn btn-primary" th:href="@{/reserva/agregar}">Nueva reserva</a>
-        </div>
         <div class="table-container mt-4">
             <h1 class="text-center mb-4">Lista de Reservas</h1>
             <table class="table table-bordered table-striped">
@@ -111,6 +108,7 @@
                         <th>Nombre del Evento</th>
                         <th>Fecha de Inicio</th>
                         <th>Precio</th>
+                        <th>Observaciones</th>
                         <th>Cantidad</th>
                         <th>Opciones</th>
                     </tr>
@@ -120,6 +118,7 @@
                         <td th:text="${reserva.evento.nombre}"></td>
                         <td th:text="${reserva.evento.fechaInicio}"></td>
                         <td th:text="${reserva.precioVenta}"></td>
+                        <td th:text="${reserva.observaciones}"></td>
                         <td>
                             <form th:action="@{/reserva/editar/{idReserva}(idReserva=${reserva.idReserva})}" method="post" class="d-inline">
                                 <input type="hidden" name="idReserva" th:value="${reserva.idReserva}" />

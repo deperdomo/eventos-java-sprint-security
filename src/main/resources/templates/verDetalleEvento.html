@@ -9,39 +9,112 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
         }
+
         .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
         .card-header {
-            background-color: #007bff;
+            background-color: #0069d9;
             color: white;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            text-align: center;
+            font-size: 1.25rem;
+            padding: 1.5rem;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
+
         .list-group-item {
             border: none;
+            padding: 1.2rem 1.5rem;
             text-align: left;
+            font-size: 1rem;
+            color: #555;
         }
+
         .list-group-item .field-label {
-            font-weight: bold;
+            font-weight: 600;
+            color: #333;
         }
+
         .btn-danger {
-            border-radius: 20px;
-            transition: background-color 0.3s ease;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
+
         .btn-danger:hover {
-            background-color: #dc3545;
+            background-color: #e43b44;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            border-radius: 30px;
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .text-center p-3 {
+            padding: 25px;
+        }
+
+        /* Custom Select Styles */
+        select.form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #f8f9fa;
+            background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3e%3cpath d="M2 0l2 2H0z" fill="%23333"%3e%3c/path%3e%3c/svg%3e');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
         }
     </style>
 </head>
 <body>
 
 <div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card" style="width: 24rem;">
-        <div class="card-header text-center">
+    <div class="card" style="width: 28rem;">
+        <div class="card-header">
             <h3 class="mb-0">Detalles del Evento</h3>
         </div>
         <ul class="list-group list-group-flush">
@@ -58,8 +131,24 @@
             <li class="list-group-item"><span class="field-label">Precio:</span> <span th:text="${evento.precio}"></span></li>
             <li class="list-group-item"><span class="field-label">Tipo:</span> <span th:text="${evento.tipo.nombre}"></span></li>
         </ul>
+        <form th:action="@{/reserva/agregar/{idEvento}(idEvento=${evento.idEvento})}" method="POST">
+            <div class="mb-4">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <select class="form-select" name="cantidad" id="cantidad" required>
+                    <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <input type="text" class="form-control" id="observaciones" name="observaciones" placeholder="Observaciones">
+            </div>
+            <div class="text-center p-3">
+                <button type="submit" class="btn btn-primary w-100">Reservar</button>
+            </div>
+        </form>
+
         <div class="text-center p-3">
-            <a th:href="@{/}" class="btn btn-danger">Cancelar</a>
+            <a th:href="@{/}" class="btn btn-danger w-100">Cancelar</a>
         </div>
     </div>
 </div>

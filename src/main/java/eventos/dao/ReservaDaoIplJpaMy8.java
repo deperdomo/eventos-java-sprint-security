@@ -23,7 +23,7 @@ public class ReservaDaoIplJpaMy8 implements ReservaDao {
 
 	@Override
 	public int guardarReserva(Reserva reserva) {
-		return (rrepo.save(reserva) == null) ? 1 : 0;
+		return (rrepo.save(reserva) != null) ? 1 : 0;
 	}
 
 	@Override
