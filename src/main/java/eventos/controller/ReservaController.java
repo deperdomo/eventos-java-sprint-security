@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import eventos.dao.EventoDao;
@@ -16,7 +17,6 @@ import eventos.dao.ReservaDao;
 import eventos.dao.UsuarioDao;
 import eventos.entidades.Evento;
 import eventos.entidades.Reserva;
-import eventos.entidades.Tipo;
 import eventos.entidades.Usuario;
 import jakarta.servlet.http.HttpSession;
 
@@ -55,13 +55,13 @@ public class ReservaController {
 	}
 	
 	@PostMapping("/editar/{idReserva}")
-    public String agregarEditado(int cantidad, RedirectAttributes ratt, @PathVariable int idReserva) {
+    public String agregarEditado(@RequestParam int cantidad, RedirectAttributes ratt, @PathVariable int idReserva) {
 		
         Reserva reserva = rdao.buscarPorIdReserva(idReserva);
         reserva.setCantidad(cantidad);
         
         if (rdao.guardarReserva(reserva)==1)
-        	ratt.addFlashAttribute("mensaje", "Reserva editada");
+        	ratt.addFlashAttribute("mensaje", "Reserva modificada correctamente");
         else
         	ratt.addFlashAttribute("mensaje", "Reserva NO editada");
 
@@ -73,7 +73,7 @@ public class ReservaController {
 		Reserva reserva = rdao.buscarPorIdReserva(idReserva);
        
         if (rdao.eliminarReserva(reserva)==1)
-        	ratt.addFlashAttribute("mensaje", "Reserva cancelada");
+        	ratt.addFlashAttribute("mensaje", "Reserva cancelada correctamente");
         else
         	ratt.addFlashAttribute("mensaje", "Reserva NO cancelada");
 
@@ -88,6 +88,11 @@ public class ReservaController {
 		reserva.setUsuario((Usuario) session.getAttribute("usuario"));
 		System.out.println("Este es la reserva: "+ reserva);
 		
+		if (!evento.estaActivo() && evento.getEstado() != "TERMINADO" && evento.getEstado() != "CANCELADO") {
+			ratt.addFlashAttribute("mensaje", "No es posible reservar en este evento, verifique su estado o fecha de inicio");
+			return "redirect:/";
+		}
+		
 		try {
 			if(rdao.guardarReserva(reserva) == 1) {
 			ratt.addFlashAttribute("mensaje", "Resreva agregada");
@@ -95,7 +100,7 @@ public class ReservaController {
 			ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar la Resreva");
 		}
 		} catch (Exception e) {
-			ratt.addFlashAttribute("mensaje", "La reserva ya esta creada, puede modificarla aquí");
+			ratt.addFlashAttribute("mensaje", "La reserva ha sido creada con anterioridad, puede modificarla aquí");
 			return "redirect:/reserva";
 		}
 		

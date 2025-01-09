@@ -62,12 +62,14 @@ public class TipoController {
 	
 	@GetMapping("/eliminar/{idTipo}")
 	public String procEliminarTipo(RedirectAttributes ratt, Tipo tipo) {
-		
-		if (tdao.eliminarTipo(tipo)==1)
+		try {
+			if (tdao.eliminarTipo(tipo)==1)
         	ratt.addFlashAttribute("mensaje", "Tipo eliminado");
-        else
-            ratt.addFlashAttribute("mensaje", "Tipo NO eliminado");
-		
+	        else
+	            ratt.addFlashAttribute("mensaje", "Tipo NO eliminado");
+		} catch (Exception e) {
+			ratt.addFlashAttribute("mensaje", "Este Tipo está asignado a eventos, No puede ser eliminado");
+		}
 		return "redirect:/tipo";
 	}
 	

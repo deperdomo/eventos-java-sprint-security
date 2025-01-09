@@ -88,7 +88,7 @@
                     <li sec:authorize="hasRole('ROLE_ADMON')" class="nav-item">
                         <a class="nav-link" th:href="@{/tipo}">Tipos de Evento</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li sec:authorize="hasRole('ROLE_CLIENTE') or isAnonymous()" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tipos de Evento</a>
                         <ul class="dropdown-menu">
                             <li th:each="tipo : ${tipos}">
@@ -97,21 +97,22 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a sec:authorize="hasRole('ROLE_CLIENTE') or isAnonymous()" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Eventos
                         </a>
-                        <ul sec:authorize="hasRole('ROLE_CLIENTE')" class="dropdown-menu">
-                            <li><a class="dropdown-item" th:href="@{/evento/todos}">Todos</a></li>
-                            <li><a class="dropdown-item" th:href="@{/evento/destacados}">Destacados</a></li>
-                            <li><a class="dropdown-item" th:href="@{/evento/cancelados}">Cancelados</a></li>
-                            <li><a class="dropdown-item" th:href="@{/evento/terminados}">Terminados</a></li>
-                            <li><a class="dropdown-item" th:href="@{/evento/activos}">Activos</a></li>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/evento/filtro/todos}">Todos</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/filtro/destacados}">Destacados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/filtro/cancelados}">Cancelados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/filtro/terminados}">Terminados</a></li>
+                            <li><a class="dropdown-item" th:href="@{/evento/filtro/activos}">Activos</a></li>
                         </ul>
                    </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/reserva}">Mis reservas</a>
                     </li>
                 </ul>
+                <spam  sec:authentication="name"></spam>
                 <ul class="navbar-nav">
                     <li sec:authorize="!isAuthenticated()" class="nav-item">
                         <a class="nav-link" th:href="@{/login}">Inicio Sesión</a>
@@ -130,7 +131,7 @@
     <!-- Contenido -->
     <div class="container mt-5">
         <h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
-        <div class="text-end">
+        <div sec:authorize="hasRole('ROLE_ADMON')" class="text-end">
             <a class="btn btn-primary" th:href="@{/evento/agregar}">Nuevo evento</a>
         </div>
         <div class="table-container mt-4">
@@ -152,13 +153,13 @@
                         <td th:text="${evento.fechaInicio}">2024-12-23</td>
                         <td th:text="${evento.precio}">50.00</td>
                         <td>
-                            <a th:href="@{/evento/editar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                            <a sec:authorize="hasRole('ROLE_ADMON')" th:href="@{/evento/editar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
                                 <i class="bi bi-pencil text-warning" title="Editar"></i>
                             </a>
-                            <a th:href="@{/evento/cancelar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                            <a sec:authorize="hasRole('ROLE_ADMON')" th:href="@{/evento/cancelar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
                                 <i class="bi bi-x-circle text-danger" title="Cancelar"></i>
                             </a>
-                            <a th:href="@{/evento/eliminar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
+                            <a sec:authorize="hasRole('ROLE_ADMON')" th:href="@{/evento/eliminar/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">
                                 <i class="bi bi-trash text-secondary" title="Eliminar"></i>
                             </a>
                             <a th:href="@{/evento/detalle/{idEvento}(idEvento=${evento.idEvento})}" class="icon-link">

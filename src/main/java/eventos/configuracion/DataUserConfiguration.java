@@ -47,12 +47,13 @@ public class DataUserConfiguration{
 		http.authorizeHttpRequests(authorize -> authorize
 			.requestMatchers("static/**").permitAll()
 			// Las vistas públicas no requieren autenticación
-			.requestMatchers("/registro","/", "/login", "/logout", "/evento/**","/reserva/**", "/public/**","/tipo/**").permitAll()
+			.requestMatchers("/registro","/", "/login", "/usuario/agregar", "/logout", "/evento/detalle/**", "/evento/tipo/**", "/evento/filtro/**", "/public/**").permitAll()
 	//		.requestMatchers("/rest/encriptar/**").permitAll()
 			// Todas las demás URLs de la Aplicación requieren autenticación
 			// Asignar permisos a URLs por ROLES
-	 		.requestMatchers("/tipo/**", "/usuario/**").hasAnyAuthority("ROLE_ADMON")
-			.requestMatchers("/app/usuarios/**").hasAnyAuthority("ROLE_GESTOR","ROLE_ADMINISTRADOR")
+	 		.requestMatchers("/tipo/**", "/usuario/**", "/perfil/**","/evento/**").hasAnyAuthority("ROLE_ADMON")
+	 		//.requestMatchers("").hasAnyAuthority("ROLE_CLIENTE")
+			.requestMatchers("/reserva/**").hasAnyAuthority("ROLE_ADMON","ROLE_CLIENTE")
 			.requestMatchers("/app/perfiles/**").hasAnyAuthority("ROLE_ADMINISTRADOR")
 			.requestMatchers("/app/tipos/**").hasAnyAuthority("ROLE_GESTOR") 
 			.anyRequest().authenticated())

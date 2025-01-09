@@ -61,6 +61,26 @@
             transform: scale(1.05);
         }
 
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #565e64;
+            transform: scale(1.05);
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
         @media (max-width: 768px) {
             .form-container {
                 padding: 20px;
@@ -73,30 +93,37 @@
 <div class="container">
     <div class="form-container">
         <h1>Agregar Nuevo Usuario</h1>
+        
+        <!-- Mensaje de error si el usuario o correo no son únicos -->
+        <div th:if="${mensajeErrorUserEmail}" class="alert alert-danger text-center">
+            <span th:text="${mensajeErrorUserEmail}"></span>
+        </div>
+
+        <!-- Formulario -->
         <form th:action="@{/usuario/agregar}" method="post">
             <div class="mb-4">
                 <label for="username" class="form-label">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="username" name="username" value="marta" placeholder="Ingrese el nombre de usuario" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese el nombre de usuario" required>
             </div>
             <div class="mb-4">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="marta" placeholder="Ingrese el nombre" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre" required>
             </div>
             <div class="mb-4">
                 <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos" value="Martinez" placeholder="Ingrese los apellidos">
+                <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingrese los apellidos">
             </div>
             <div class="mb-4">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" value="xxxx" placeholder="Ingrese la dirección">
+                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese la dirección">
             </div>
             <div class="mb-4">
                 <label for="email" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" value="marta@gmail.com" placeholder="Ingrese el correo electrónico" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el correo electrónico" required>
             </div>
             <div class="mb-4">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" value="marta" placeholder="Ingrese la contraseña" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese la contraseña" required>
             </div>
             <div class="mb-4">
                 <label for="enabled" class="form-label">Activo</label>
@@ -107,6 +134,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Guardar Usuario</button>
         </form>
+        <a th:href="@{/login}" class="btn btn-secondary">Login</a>
     </div>
 </div>
 

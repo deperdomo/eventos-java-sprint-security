@@ -36,28 +36,31 @@ public class EventoController {
 	TipoDao tdao;
 	
 
-	@GetMapping("/todos")
+	@GetMapping("/filtro/todos")
 	public String getTodos(Model model) {
 	    model.addAttribute("eventos", edao.buscarTodos());
+	    model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("mensaje", "Todos los eventos");
 		return "eventos";
 	}
 	
-	@GetMapping("/cancelados")
+	@GetMapping("/filtro/cancelados")
 	public String getCancelados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorEstado("CANCELADO"));
+	    model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("mensaje", "Eventos cancelados");
 		return "eventos";
 	}
 	
-	@GetMapping("/terminados")
+	@GetMapping("/filtro/terminados")
 	public String getTerminados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorEstado("TERMINADO"));
+	    model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("mensaje", "Eventos terminados");
 		return "eventos";
 	}
 	
-	@GetMapping("/activos")
+	@GetMapping("/filtro/activos")
 	public String getAceptados(Model model) {
 		List<Evento> eventosActivos = new ArrayList<>();
 		for (Evento evento : edao.buscarTodos()) {
@@ -66,13 +69,15 @@ public class EventoController {
 			}
 		}
 	    model.addAttribute("eventos", eventosActivos);
+	    model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("mensaje", "Eventos activos");
 		return "eventos";
 	}
 	
-	@GetMapping("/destacados")
+	@GetMapping("/filtro/destacados")
 	public String getDestacados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorDestacados("S"));
+	    model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("mensaje", "Eventos destacados");
 		return "eventos";
 	}
@@ -154,11 +159,11 @@ public class EventoController {
        try {
 		if (edao.eliminarEvento(evento)==1)
         	ratt.addFlashAttribute("mensaje", "Evento eliminado");
-        else
-        	ratt.addFlashAttribute("mensaje", "Eveto NO eliminado");
-	} catch (Exception e) {
-		ratt.addFlashAttribute("mensaje", "Este evento tiene reservas");
-	}
+	        else
+	        	ratt.addFlashAttribute("mensaje", "Eveto NO eliminado");
+		} catch (Exception e) {
+			ratt.addFlashAttribute("mensaje", "Este evento tiene reservas, no se puede eliminar");
+		}
             return "redirect:/";
     }
 	

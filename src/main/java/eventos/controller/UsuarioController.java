@@ -41,24 +41,35 @@ public class UsuarioController {
 	
 	@PostMapping("/agregar")
 	public String procAgregar(Usuario usuario, RedirectAttributes ratt) {
+		System.out.println("Controller de agregar usuario");
 		List<Perfil> perfiles = new ArrayList<>();
 		perfiles.add(pdao.buscarPorNombreDePerfil("ROLE_CLIENTE"));
 	    usuario.setPerfiles(perfiles);
 	    usuario.setFechaRegistro(new Date());
-	    
 	    usuario.setPassword("{noop}"+usuario.getPassword());
 	    System.out.println("Estos son los datos de usuario:"+ usuario);
-	    if (udao.insertarUsuario(usuario)==1) {
+	    try {
+			if (udao.insertarUsuario(usuario)==1) {
 	    	ratt.addFlashAttribute("mensaje", "Usuario agregado");
-	    } else {
-	    	ratt.addFlashAttribute("mensaje", "Usuario No agregado");
-	    }
+		    } else {
+		    	ratt.addFlashAttribute("mensaje", "Usuario No agregado");
+		    	return "redirect:/";
+		    }
+		} catch (Exception e) {
+			ratt.addFlashAttribute("mensajeErrorUserEmail", "El Nombre de usuario o su Contraseña no son unicos");
+			return "redirect:/registro";
+		}
 	    
-	    if (SecurityContextHolder.getContext().getAuthentication().getName() == null) {
+	    
+	    if (SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+	    	    .stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMON"))) {
+	    	    return "redirect:/usuario";
+	    	} 
+	    if (SecurityContextHolder.getContext().getAuthentication().getName() =="anonymousUser") {
 	    	return "login";
 	    	
 	    } else {
-	    	return "redirect:/usuario";
+	    	return "redirect:/";
 	    }     
 	}
 	
@@ -107,11 +118,15 @@ public class UsuarioController {
 	
 	@GetMapping("/eliminar/{username}")
     public String eliminar( RedirectAttributes ratt, @PathVariable String username) {
-       
-        if (udao.eliminarUsuario(username)==1)
-        	ratt.addFlashAttribute("mensaje", "Usuario eliminado");
-        else
-        	ratt.addFlashAttribute("mensaje", "Usuario NO eliminado");
+		try {
+			if (udao.eliminarUsuario(username)==1)
+	        	ratt.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
+	        else
+	        	ratt.addFlashAttribute("mensaje", "Usuario NO eliminado");
+		} catch (Exception e) {
+			ratt.addFlashAttribute("mensaje", "El usuario posee reservas, NO puede ser eliminado");
+		}
+        
 
             return "redirect:/usuario";
     }
