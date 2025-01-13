@@ -92,7 +92,7 @@
 
 <div class="container">
     <div class="form-container">
-        <h1>Registro</h1>
+        <h1>Agregar Nuevo Usuario</h1>
         
         <!-- Mensaje de error si el usuario o correo no son únicos -->
         <div th:if="${mensajeErrorUserEmail}" class="alert alert-danger text-center">
@@ -132,9 +132,18 @@
                     <option value="0">No</option>
                 </select>
             </div>
+            <div class="col-md-6">
+                <label for="tipo" class="form-label">Rol del usuario</label>
+                <select class="form-select" id="idTipo" name="idTipo" required>
+                    <option value="" selected disabled>Seleccione un tipo</option>
+                    <option th:each="tipo : ${tipos}" 
+                            th:value="${tipo.idTipo}"  
+                            th:text="${tipo.nombre}">
+                    </option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Guardar Usuario</button>
         </form>
-        <a th:href="@{/login}" class="btn btn-secondary">Login</a>
     </div>
 </div>
 
