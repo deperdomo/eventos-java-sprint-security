@@ -173,6 +173,8 @@ public class EventoController {
 
         if (evento != null) {
             model.addAttribute("evento", evento);
+            model.addAttribute("aforoReservado", edao.aforoRestante(idEvento));
+            System.out.println("Este es el aforo reservado "+ edao.aforoRestante(idEvento));
             return "verDetalleEvento";
         } else {
             model.addAttribute("mensaje", "Evento no existe");

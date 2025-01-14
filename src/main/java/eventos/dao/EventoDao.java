@@ -14,4 +14,5 @@ public interface EventoDao {
 	int agregarEvento(Evento evento);
 	int eliminarEvento(Evento evento);
 	List<Evento> buscarPorTipo(Tipo tipo);
+	int aforoRestante(int idEvento);
 }

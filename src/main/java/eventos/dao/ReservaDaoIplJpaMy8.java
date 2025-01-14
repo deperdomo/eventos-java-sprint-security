@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import eventos.entidades.Evento;
 import eventos.entidades.Reserva;
 import eventos.entidades.Usuario;
 import eventos.repository.ReservaRepository;
@@ -19,6 +20,11 @@ public class ReservaDaoIplJpaMy8 implements ReservaDao {
 	@Override
 	public List<Reserva> buscarReservasPorUsuario(Usuario usuario) {
 		return rrepo.findByUsuario(usuario);
+	}
+	
+	@Override
+	public List<Reserva> buscarReservasPorEvento(Evento evento) {
+		return rrepo.findByEvento(evento);
 	}
 
 	@Override
@@ -36,5 +42,8 @@ public class ReservaDaoIplJpaMy8 implements ReservaDao {
 	public Reserva buscarPorIdReserva(int idReserva) {
 		return rrepo.findByIdReserva(idReserva);
 	}
+
+	
+
 
 }

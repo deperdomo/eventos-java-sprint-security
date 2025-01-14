@@ -71,5 +71,14 @@ public class Evento implements Serializable {
 	    return (fechaInicio.after(fechaActual));
 	}
 	
+	public boolean comprobarAforo(int cantidad) {
+		if (this.aforoMaximo < cantidad) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 
 }

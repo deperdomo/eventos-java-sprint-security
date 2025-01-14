@@ -131,12 +131,15 @@
             <li class="list-group-item"><span class="field-label">Precio:</span> <span th:text="${evento.precio}"></span></li>
             <li class="list-group-item"><span class="field-label">Tipo:</span> <span th:text="${evento.tipo.nombre}"></span></li>
         </ul>
-        <form th:action="@{/reserva/agregar/{idEvento}(idEvento=${evento.idEvento})}" method="POST">
-            <div class="mb-4">
+        
+        <form th:if="${evento.estado} != 'CANCELADO' and ${evento.estado} != 'TERMINADO'" th:action="@{/reserva/agregar/{idEvento}(idEvento=${evento.idEvento})}" method="POST">
+        	<div class="mb-4">
                 <label for="cantidad" class="form-label">Cantidad</label>
-                <select class="form-select" name="cantidad" id="cantidad" required>
-                    <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
-                </select>
+			    <select class="form-select" name="cantidad" id="cantidad" required>
+				    <option th:each="i : ${#numbers.sequence(1, aforoReservado > 10 ? 10 : aforoReservado)}"
+				            th:value="${i}"
+				            th:text="${i}"></option>
+				</select>
             </div>
             <div class="mb-4">
                 <label for="observaciones" class="form-label">Observaciones</label>
@@ -145,8 +148,8 @@
             <div class="text-center p-3">
                 <button type="submit" class="btn btn-primary w-100">Reservar</button>
             </div>
-        </form>
-
+	    </form>
+ 
         <div class="text-center p-3">
             <a th:href="@{/}" class="btn btn-danger w-100">Cancelar</a>
         </div>

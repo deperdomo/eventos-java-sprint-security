@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import eventos.entidades.Evento;
+import eventos.entidades.Reserva;
 import eventos.entidades.Tipo;
 import eventos.repository.EventoRepository;
+import eventos.repository.ReservaRepository;
 
 @Repository
 public class EventoDaoIplJpaMy8 implements EventoDao {
 
 	@Autowired
 	EventoRepository erepo;
+	@Autowired
+	ReservaRepository rrepo;
 	
 	@Override
 	public List<Evento> buscarTodos() {
@@ -47,8 +51,7 @@ public class EventoDaoIplJpaMy8 implements EventoDao {
 			return 1;
 		} else {
 			return 0;
-		}
-			
+		}		
 	}
 
 	@Override
@@ -56,8 +59,16 @@ public class EventoDaoIplJpaMy8 implements EventoDao {
 		return erepo.findByTipo(tipo);
 	}
 
-	
+	@Override
+	public int aforoRestante(int idEvento) {
+		List<Reserva> reservas = rrepo.findByEvento(erepo.findByIdEvento(idEvento));
+		Evento evento = erepo.findByIdEvento(idEvento);
+		int aforoReservado = 0;
+		for (Reserva reserva : reservas) {
+			aforoReservado += reserva.getCantidad();
+		}
+		return evento.getAforoMaximo() - aforoReservado;
+	}
 
-	
 
 }

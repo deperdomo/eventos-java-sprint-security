@@ -88,21 +88,21 @@ public class ReservaController {
 		reserva.setUsuario((Usuario) session.getAttribute("usuario"));
 		System.out.println("Este es la reserva: "+ reserva);
 		
-		if (!evento.estaActivo() && evento.getEstado() != "TERMINADO" && evento.getEstado() != "CANCELADO") {
+		if (!evento.estaActivo() && evento.getEstado() == "TERMINADO" && evento.getEstado() == "CANCELADO") {
 			ratt.addFlashAttribute("mensaje", "No es posible reservar en este evento, verifique su estado o fecha de inicio");
 			return "redirect:/";
 		}
-		
 		try {
 			if(rdao.guardarReserva(reserva) == 1) {
 			ratt.addFlashAttribute("mensaje", "Resreva agregada");
-		} else {
-			ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar la Resreva");
-		}
+			} else {
+				ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar la Resreva");
+			}
 		} catch (Exception e) {
 			ratt.addFlashAttribute("mensaje", "La reserva ha sido creada con anterioridad, puede modificarla aquí");
 			return "redirect:/reserva";
 		}
+		
 		
 	    return "redirect:/";
 	}
