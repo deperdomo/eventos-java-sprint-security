@@ -92,7 +92,7 @@
 
 <div class="container">
     <div class="form-container">
-        <h1>Registro</h1>
+        <h1>Agregar Nuevo Usuario</h1>
         
         <!-- Mensaje de error si el usuario o correo no son únicos -->
         <div th:if="${mensajeErrorUserEmail}" class="alert alert-danger text-center">
@@ -100,7 +100,7 @@
         </div>
 
         <!-- Formulario -->
-        <form th:action="@{/usuario/registro}" method="post">
+        <form th:action="@{/usuario/agregar}" method="post">
             <div class="mb-4">
                 <label for="username" class="form-label">Nombre de Usuario</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese el nombre de usuario" required>
@@ -132,9 +132,17 @@
                     <option value="0">No</option>
                 </select>
             </div>
+			<div class="mb-4">
+			    <label for="idPerfil" class="form-label">Perfil del usuario</label>
+			    <select class="form-select" id="idPerfil" name="idPerfil[]" required multiple>
+			        <option th:each="perfil : ${perfiles}" 
+			                th:value="${perfil.idPerfil}"  
+			                th:text="${perfil.nombre}">
+			        </option>
+			    </select>
+			</div>
             <button type="submit" class="btn btn-primary">Guardar Usuario</button>
         </form>
-        <a th:href="@{/login}" class="btn btn-secondary">Login</a>
     </div>
 </div>
 

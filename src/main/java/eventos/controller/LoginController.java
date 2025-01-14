@@ -54,7 +54,6 @@ public class LoginController {
 	public String registro(Model model, HttpSession session) {
 		System.out.println("Entrando al getmapping del registro");
 		return "registro";
-		
 	}
 
 	 
