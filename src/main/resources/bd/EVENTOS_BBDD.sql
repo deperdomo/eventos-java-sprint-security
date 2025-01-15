@@ -1,16 +1,19 @@
 CREATE DATABASE EVENTOS_BBDD;
 USE EVENTOS_BBDD;
 
+-- alter table usuarios modify column password varchar(200);
+
 CREATE TABLE TIPOS
 (ID_TIPO INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 NOMBRE VARCHAR(45) NOT NULL,
 DESCRIPCION VARCHAR(200)
 );
 
+
 CREATE TABLE USUARIOS
 (
 USERNAME VARCHAR(45) NOT NULL PRIMARY KEY,
-PASSWORD VARCHAR(45) NOT NULL,
+PASSWORD VARCHAR(200) NOT NULL,
 EMAIL VARCHAR(100) NOT NULL UNIQUE,
 NOMBRE VARCHAR(30),
 APELLIDOS VARCHAR(45),
@@ -18,6 +21,8 @@ DIRECCION VARCHAR(100),
 ENABLED INT NOT NULL DEFAULT 1,
 FECHA_REGISTRO DATE
 );
+
+
 
 CREATE TABLE PERFILES
 (ID_PERFIL INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -37,7 +42,6 @@ CREATE TABLE EVENTOS
 NOMBRE VARCHAR(50) NOT NULL,
 DESCRIPCION VARCHAR(200),
 FECHA_INICIO DATE,
-FECHA_FIN DATE,
 DURACION INT,
 DIRECCION VARCHAR(100),
 ESTADO ENUM('ACEPTADO','TERMINADO','CANCELADO'),
@@ -49,6 +53,8 @@ ID_TIPO INT NOT NULL,
 FOREIGN KEY(ID_TIPO) REFERENCES TIPOS(ID_TIPO)
 
 );
+
+
 
 CREATE TABLE RESERVAS
 (ID_RESERVA INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -63,42 +69,26 @@ check(cantidad between 1 and 10),
 UNIQUE(ID_EVENTO,USERNAME)
 );
 
--- Insertar datos en la tabla TIPOS
-INSERT INTO TIPOS (NOMBRE, DESCRIPCION) VALUES
-('Conferencia', 'Evento para compartir conocimientos sobre un tema específico'),
-('Taller', 'Evento práctico para aprender habilidades'),
-('Seminario', 'Evento académico o profesional');
+-- Alta de Tipos de evento
+insert into tipos values(1,'Boda','Bodas grandes, pequeñas y medianas'),
+						(2,'Conciertos','Espacios abiertos o cerrado, nacionales e internacionales');
+-- Alta de perfiles
+insert into perfiles values
+(1, 'ROLE_ADMON'), (2,'ROLE_CLIENTE');
+-- Alta de Usuarios                        
+insert into usuarios values
+('tomas', '{noop}tomasin', 'tomas@fp.com','Tomas', 'Profesor', 'Madrid',1,'2019-11-06'),
+('eva', '{noop}evita', 'eva@fp.com','Eva', 'Goma', 'Sevilla',1,'2020-07-07');
 
--- Insertar datos en la tabla USUARIOS
-INSERT INTO USUARIOS (USERNAME, PASSWORD, EMAIL, NOMBRE, APELLIDOS, DIRECCION, ENABLED, FECHA_REGISTRO) VALUES
-('deivi', '{noop}deivi', 'deivi@example.com', 'David', 'Garcia', 'Calle Sol, 123', 1, CURDATE()),
-('tomas', '{noop}tomas', 'tomas@example.com', 'Tomas', 'Perez', 'Calle Luna, 45', 1, CURDATE()),
-('ana', '{noop}ana', 'ana@example.com', 'Ana', 'Lopez', 'Avenida Mar, 78', 1, CURDATE());
+-- Alata de Usuario_Perfiles
+insert into usuario_perfiles values
+('tomas', 1),('eva', 2);
 
+-- Alta de eventos
+insert into eventos values
+(1, 'Boda de Blas', 'No entra ni una persoan de más', '2025-05-15', 3, 'Madrid', 'ACEPTADO', 'S', 100,20,200,1),
+(2, 'Boda de Epi', 'Absolutamente informal, ven como quieras', '2025-06-15', 3, 'Madrid', 'ACEPTADO', 'S', 15,5,150,1),
+(3, 'We will of rock', 'Te lo vas a pasar pipa', '2025-03-15', 1, 'Madrid', 'ACEPTADO', 'S', 100,20,200,2);
 
--- Insertar datos en la tabla PERFILES
-INSERT INTO PERFILES (NOMBRE) VALUES
-('ROLE_ADMON'),
-('ROLE_CLIENTE');
-
--- Asignar perfiles a usuarios en la tabla USUARIO_PERFILES
-INSERT INTO USUARIO_PERFILES (USERNAME, ID_PERFIL) VALUES
-('deivi', 1), -- David es Admin
-('tomas', 2), -- Tomas es Usuario
-('ana', 2);   -- Ana es Usuario
-
--- Insertar datos en la tabla EVENTOS
-INSERT INTO EVENTOS (NOMBRE, DESCRIPCION, FECHA_INICIO, FECHA_FIN, DURACION, DIRECCION, ESTADO, DESTACADO, AFORO_MAXIMO, MINIMO_ASISTENCIA, PRECIO, ID_TIPO) VALUES
-('Taller de Java', 'Aprende los fundamentos de Java', '2025-01-15','2025-02-15', 3, 'Calle Programación, 1', 'ACEPTADO', 'S', 50, 10, 100.00, 2),
-('Seminario de Negocios', 'Tendencias en el mundo empresarial', '2025-02-20','2025-03-15', 1, 'Calle Negocios, 10', 'TERMINADO', 'N', 100, 20, 200.00, 3),
-('Conferencia de Tecnología', 'Explora las nuevas tecnologías del mercado', '2025-03-10','2025-04-15', 2, 'Calle Innovación, 15', 'CANCELADO', 'N', 200, 30, 150.00, 1);
-
--- Insertar datos en la tabla RESERVAS
-INSERT INTO RESERVAS (ID_EVENTO, USERNAME, PRECIO_VENTA, OBSERVACIONES, CANTIDAD) VALUES
-(1, 'deivi', 90.00, 'Asiento preferencial', 2),
-(2, 'tomas', 180.00, 'Entrada regular', 1),
-(3, 'ana', 135.00, 'Promoción de estudiante', 1),
-(1, 'tomas', 90.00, 'Asiento regular', 1),
-(2, 'ana', 180.00, 'Entrada VIP', 2),
-(3, 'deivi', 135.00, 'Promoción de estudiante', 1);
-
+-- Alta de reservas
+insert into reservas values(1,2,'eva',150,'Hay plazas de garaje, o autobus', 10);
