@@ -60,11 +60,13 @@ public class ReservaController {
         Reserva reserva = rdao.buscarPorIdReserva(idReserva);
         reserva.setCantidad(cantidad);
         
-        if (rdao.guardarReserva(reserva)==1)
+        if (edao.aforoRestante(reserva.getEvento().getIdEvento())+cantidad >= cantidad) {
+        	rdao.guardarReserva(reserva);
         	ratt.addFlashAttribute("mensaje", "Reserva modificada correctamente");
-        else
-        	ratt.addFlashAttribute("mensaje", "Reserva NO editada");
-
+        } else {
+        	ratt.addFlashAttribute("mensaje", "La cantidad introducida es demaciado alta para el aforo disponible en este evento");
+        }
+        	
         return "redirect:/reserva";
     }
 	
@@ -99,7 +101,7 @@ public class ReservaController {
 				ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar la Resreva");
 			}
 		} catch (Exception e) {
-			ratt.addFlashAttribute("mensaje", "La reserva ha sido creada con anterioridad, puede modificarla aquí");
+			ratt.addFlashAttribute("mensaje", "Ya ha hecho una reserva para este evento, puede modificarla aquí");
 			return "redirect:/reserva";
 		}
 		

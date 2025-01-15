@@ -129,7 +129,7 @@
             <li class="list-group-item"><span class="field-label">Tipo:</span> <span th:text="${evento.tipo.nombre}"></span></li>
         </ul>
         
-        <form th:if="${evento.estado} != 'CANCELADO' and ${evento.estado} != 'TERMINADO'" th:action="@{/reserva/agregar/{idEvento}(idEvento=${evento.idEvento})}" method="POST">
+        <form th:if="${evento.estado} != 'CANCELADO' and ${evento.estado} != 'TERMINADO' and ${aforoReservado} !=0" th:action="@{/reserva/agregar/{idEvento}(idEvento=${evento.idEvento})}" method="POST">
         	<div class="mb-4">
                 <label for="cantidad" class="form-label">Cantidad</label>
 			    <select class="form-select" name="cantidad" id="cantidad" required>
