@@ -139,6 +139,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                    	<th>Destacado</th>
                         <th>Nombre</th>
                         <th>Aforo Máximo</th>
                         <th>Fecha de Inicio</th>
@@ -148,6 +149,10 @@
                 </thead>
                 <tbody>
                     <tr th:each="evento : ${eventos}">
+                    	<td>
+				            <i th:if="${evento.destacado == 'S'}" class="bi bi-star-fill" style="color: #ffc107;"></i>
+				            <i th:if="${evento.destacado == 'N'}" class="bi bi-star" style="color: #6c757d;"></i>
+				        </td>
                         <td th:text="${evento.nombre}">Nombre del Evento</td>
                         <td th:text="${evento.aforoMaximo}">100</td>
                         <td th:text="${evento.fechaInicio}">2024-12-23</td>

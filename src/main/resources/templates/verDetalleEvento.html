@@ -41,8 +41,12 @@
             text-align: left;
             font-size: 1rem;
             color: #555;
-        }
+        }            
 
+		.list-group {
+			margin-bottom: 25px;
+		}
+		
         .list-group-item .field-label {
             font-weight: 600;
             color: #333;
@@ -74,10 +78,13 @@
             font-weight: 500;
             font-size: 1rem;
             margin-bottom: 0.5rem;
+            margin-left: 20px;
             color: #333;
         }
 
         .form-control, .form-select {
+        	width: 90%;
+        	margin-left: 20px;
             border-radius: 10px;
             padding: 10px;
             font-size: 1rem;
@@ -98,16 +105,7 @@
             padding: 25px;
         }
 
-        /* Custom Select Styles */
-        select.form-select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-color: #f8f9fa;
-            background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3e%3cpath d="M2 0l2 2H0z" fill="%23333"%3e%3c/path%3e%3c/svg%3e');
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-        }
+        
     </style>
 </head>
 <body>
@@ -122,7 +120,6 @@
             <li class="list-group-item"><span class="field-label">Nombre:</span> <span th:text="${evento.nombre}"></span></li>
             <li class="list-group-item"><span class="field-label">Descripción:</span> <span th:text="${evento.descripcion}"></span></li>
             <li class="list-group-item"><span class="field-label">Fecha de Inicio:</span> <span th:text="${#dates.format(evento.fechaInicio, 'dd-MM-yyyy')}"></span></li>
-            <li class="list-group-item"><span class="field-label">Fecha de Fin:</span> <span th:text="${#dates.format(evento.fechaFin, 'dd-MM-yyyy')}"></span></li>
             <li class="list-group-item"><span class="field-label">Duración:</span> <span th:text="${evento.duracion}"></span></li>
             <li class="list-group-item"><span class="field-label">Dirección:</span> <span th:text="${evento.direccion}"></span></li>
             <li class="list-group-item"><span class="field-label">Estado:</span> <span th:text="${evento.estado}"></span></li>

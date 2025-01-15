@@ -44,11 +44,6 @@ public class Evento implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name="FECHA_FIN")
-	private Date fechaFin;
-
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="FECHA_INICIO")
 	private Date fechaInicio;
 

@@ -34,8 +34,12 @@ public class ReservaDaoIplJpaMy8 implements ReservaDao {
 
 	@Override
 	public int eliminarReserva(Reserva reserva) {
-		rrepo.delete(reserva);
-		return 1;
+		if (rrepo.existsById(reserva.getIdReserva())) {
+			rrepo.delete(reserva);
+			return 1;
+		} else {
+			return 0;
+		}	
 	}
 
 	@Override
