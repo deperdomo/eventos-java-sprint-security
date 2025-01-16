@@ -63,7 +63,7 @@ public class EventoController {
 	@GetMapping("/filtro/activos")
 	public String getAceptados(Model model) {
 		List<Evento> eventosActivos = new ArrayList<>();
-		for (Evento evento : edao.buscarTodos()) {
+		for (Evento evento : edao.buscarPorEstado("ACEPTADO")) {
 			if (evento.estaActivo()) {
 				eventosActivos.add(evento);
 			}

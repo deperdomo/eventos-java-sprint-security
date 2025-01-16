@@ -63,7 +63,7 @@ public class Evento implements Serializable {
 	// Metodos propios
 	public boolean estaActivo() {
 	    Date fechaActual = new Date();
-	    return (fechaInicio.after(fechaActual));
+	    return (this.fechaInicio.after(fechaActual));
 	}
 	
 	public boolean comprobarAforo(int cantidad) {
