@@ -93,10 +93,16 @@
                     <option th:value="0" th:selected="${usuario.enabled == 0}">No</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="fechaRegistro" class="form-label">Fecha de Registro</label>
-                <input th:value="${usuario.fechaRegistro}" type="date" class="form-control" id="fechaRegistro" name="fechaRegistro">
-            </div>
+           	<div class="mb-4">
+			    <label for="idPerfil" class="form-label">Perfil del usuario</label>
+			    <select class="form-select" id="idPerfil" name="idPerfil[]" required multiple>
+			        <option th:each="perfil : ${perfiles}" 
+			                th:value="${perfil.idPerfil}"  
+			                th:text="${perfil.nombre}"
+			                th:selected="${perfil.idPerfil == usuario.perfiles[0].idPerfil}">
+			        </option>
+			    </select>
+			</div>
             <button type="submit" class="btn btn-primary">Editar Usuario</button>
         </form>
         <div class="text-center mt-3">

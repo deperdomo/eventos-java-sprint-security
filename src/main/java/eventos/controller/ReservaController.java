@@ -37,11 +37,12 @@ public class ReservaController {
 	EventoDao edao;
 	
 	@GetMapping("")
-	public String getReservaPage(RedirectAttributes ratt, Model model) {
-		
+	public String getReservaPage(RedirectAttributes ratt, Model model, HttpSession session) {
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Usuario usuario = udao.buscarPorUsername(authentication.getName());
 		
+		session.setAttribute("usuario", usuario);
 		List<Reserva> reservasActivas = new ArrayList<>();
 		
 		for (Reserva reserva : rdao.buscarReservasPorUsuario(usuario)) {

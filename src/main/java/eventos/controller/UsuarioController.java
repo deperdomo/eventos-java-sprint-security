@@ -103,6 +103,7 @@ public class UsuarioController {
         if (usuario != null) {
         	usuario.setPassword(usuario.getPassword().substring(6));
             model.addAttribute("usuario", usuario);
+            model.addAttribute("perfiles", pdao.buscarTodos());
             return "editarUsuario";
         } else {
             model.addAttribute("mensaje", "Usuario no existe");
@@ -111,12 +112,17 @@ public class UsuarioController {
     }
 	
 	@PostMapping("/editar/{username}")
-    public String agregarEditado(Usuario usuario, RedirectAttributes ratt) {
-		
+    public String agregarEditado(Usuario usuario, RedirectAttributes ratt, @RequestParam("idPerfil[]") List<Integer> idPerfiles) {
+
         System.out.println("Usuario que me llega del formulario: "+usuario);
         usuario.setPassword("{noop}"+usuario.getPassword());
 
-        
+        List<Perfil> perfiles = new ArrayList<>();
+		for (Integer idPerfil : idPerfiles) {
+			perfiles.add(pdao.buscarPorId(idPerfil));
+		}
+		usuario.setPerfiles(perfiles);
+        usuario.setFechaRegistro(new Date());
         if (udao.insertarUsuario(usuario)==1)
         	ratt.addFlashAttribute("mensaje", "Usuario editado");
         else
