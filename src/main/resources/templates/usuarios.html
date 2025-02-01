@@ -63,7 +63,7 @@
             transform: scale(1.2);
             transition: transform 0.2s ease;
         }
-        h1, h3 {
+        h1 {
             color: #333;
         }
         table.table tr:hover {
@@ -114,7 +114,8 @@
 
     <!-- Contenido -->
     <div class="container mt-5">
-     	<h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
+     	<h3 th:if="${mensajeOk}" class="alert alert-success text-center mb-4"><span th:text="${mensajeOk}"></span></h3>
+        <h3 th:if="${mensajeError}" class="alert alert-danger text-center mb-4"><span th:text="${mensajeError}"></span></h3>
         <div class="text-end">
             <a th:href="@{usuario/agregar}" class="btn btn-primary">Nuevo usuario</a>
         </div>

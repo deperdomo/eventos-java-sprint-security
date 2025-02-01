@@ -64,7 +64,7 @@
             transform: scale(1.2);
             transition: transform 0.2s ease;
         }
-        h1, h3 {
+        h1 {
             color: #333;
         }
     </style>
@@ -130,7 +130,8 @@
 
     <!-- Contenido -->
     <div class="container mt-5">
-        <h3 class="text-center mb-4">Mensaje: <span th:text="${mensaje}"></span></h3>
+        <h3 th:if="${mensajeOk}" class="alert alert-success text-center mb-4"><span th:text="${mensajeOk}"></span></h3>
+        <h3 th:if="${mensajeError}" class="alert alert-danger text-center mb-4"><span th:text="${mensajeError}"></span></h3>
         <div sec:authorize="hasRole('ROLE_ADMON')" class="text-end">
             <a class="btn btn-primary" th:href="@{/evento/agregar}">Nuevo evento</a>
         </div>

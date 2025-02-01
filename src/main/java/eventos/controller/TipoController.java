@@ -36,9 +36,9 @@ public class TipoController {
 	@PostMapping("/agregar")
 	public String procNuevoTipo(Model model, RedirectAttributes ratt, Tipo tipo) {
 		if (tdao.insertarTipo(tipo) == 1) {
-			ratt.addFlashAttribute("mensaje", "Tipo agregado");
+			ratt.addFlashAttribute("mensajeOk", "Tipo '"+tipo.getNombre()+"' agregado");
 		} else {
-			ratt.addFlashAttribute("mensaje", "Tipo NO agregado");
+			ratt.addFlashAttribute("mensajeError", "Tipo NO agregado");
 		}
 		return "redirect:/tipo";
 	}
@@ -53,20 +53,21 @@ public class TipoController {
 	public String procEditarTipo(RedirectAttributes ratt, Tipo tipo) {
 		
 		if (tdao.insertarTipo(tipo)==1)
-        	ratt.addFlashAttribute("mensaje", "Tipo editado");
+        	ratt.addFlashAttribute("mensajeOk", "Tipo editado");
         else
-            ratt.addFlashAttribute("mensaje", "Tipo NO editado");
+            ratt.addFlashAttribute("mensajeError", "Tipo NO editado");
 		
 		return "redirect:/tipo";
 	}
 	
 	@GetMapping("/eliminar/{idTipo}")
 	public String procEliminarTipo(RedirectAttributes ratt, Tipo tipo) {
+
 		try {
 			if (tdao.eliminarTipo(tipo)==1)
-        	ratt.addFlashAttribute("mensaje", "Tipo eliminado");
+        	ratt.addFlashAttribute("mensajeOk", "Tipo eliminado");
 	        else
-	            ratt.addFlashAttribute("mensaje", "Tipo NO eliminado");
+	            ratt.addFlashAttribute("mensajeError", "Tipo NO eliminado");
 		} catch (Exception e) {
 			ratt.addFlashAttribute("mensaje", "Este Tipo está asignado a eventos, No puede ser eliminado");
 		}

@@ -51,8 +51,8 @@ public class UsuarioController {
 	    try {
 			if (udao.buscarPorUsername(usuario.getUsername())==null) {
 				udao.insertarUsuario(usuario);
-				ratt.addFlashAttribute("mensaje", "Usuario agregado");
-				return "redirect:/";
+				ratt.addFlashAttribute("mensajeOk", "Te has registrado correctamente "+usuario.getNombre()+" "+ usuario.getApellidos()+", tienes que logearte para accedea a la app");
+				return "redirect:/login";
 		    } else {
 		    	ratt.addFlashAttribute("mensajeErrorUserEmail", "El Nombre de usuario o el Email no son únicos");
 		    	return "redirect:/registro";
@@ -83,7 +83,7 @@ public class UsuarioController {
 	    try {
 			if (udao.buscarPorUsername(usuario.getUsername())==null) {
 				udao.insertarUsuario(usuario);
-				ratt.addFlashAttribute("mensaje", "Usuario agregado");
+				ratt.addFlashAttribute("mensajeOk", "Usuario agregado correctamente");
 				return "redirect:/usuario";
 		    } else {
 		    	ratt.addFlashAttribute("mensajeErrorUserEmail", "El Nombre de usuario o el Email no son únicos");
@@ -106,7 +106,7 @@ public class UsuarioController {
             model.addAttribute("perfiles", pdao.buscarTodos());
             return "editarUsuario";
         } else {
-            model.addAttribute("mensaje", "Usuario no existe");
+            model.addAttribute("mensajeError", "Usuario no existe");
             return "forward:/usuario";
         }
     }
@@ -124,9 +124,9 @@ public class UsuarioController {
 		usuario.setPerfiles(perfiles);
         usuario.setFechaRegistro(new Date());
         if (udao.insertarUsuario(usuario)==1)
-        	ratt.addFlashAttribute("mensaje", "Usuario editado");
+        	ratt.addFlashAttribute("mensajeOk", "Usuario editado");
         else
-            ratt.addFlashAttribute("mensaje", "Usuario NO editado");
+            ratt.addFlashAttribute("mensajeError", "Usuario NO editado");
 
             return "redirect:/usuario";
     }
@@ -137,9 +137,9 @@ public class UsuarioController {
 		usuario.setEnabled(0);
        
         if (udao.insertarUsuario(usuario)==1)
-        	ratt.addFlashAttribute("mensaje", "Usuario cancelado");
+        	ratt.addFlashAttribute("mensajeOk", "Usuario cancelado");
         else
-        	ratt.addFlashAttribute("mensaje", "Usuario NO cancelado");
+        	ratt.addFlashAttribute("mensajeError", "Usuario NO cancelado");
             return "redirect:/usuario";
     }
 	
@@ -147,11 +147,11 @@ public class UsuarioController {
     public String eliminar( RedirectAttributes ratt, @PathVariable String username) {
 		try {
 			if (udao.eliminarUsuario(username)==1)
-	        	ratt.addFlashAttribute("mensaje", "Usuario eliminado correctamente");
+	        	ratt.addFlashAttribute("mensajeOk", "Usuario eliminado correctamente");
 	        else
-	        	ratt.addFlashAttribute("mensaje", "Usuario NO eliminado");
+	        	ratt.addFlashAttribute("mensajeError", "Usuario NO eliminado");
 		} catch (Exception e) {
-			ratt.addFlashAttribute("mensaje", "El usuario posee reservas, NO puede ser eliminado");
+			ratt.addFlashAttribute("mensajeError", "El usuario "+udao.buscarPorUsername(username).getNombre()+" posee reservas, NO puede ser eliminado");
 		}
             return "redirect:/usuario";
     }

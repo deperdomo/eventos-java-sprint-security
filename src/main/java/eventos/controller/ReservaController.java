@@ -51,7 +51,7 @@ public class ReservaController {
 			}
 		}
 		model.addAttribute("reservas", reservasActivas);
-		ratt.addFlashAttribute("mensaje", "Tus reservas activas");
+		ratt.addFlashAttribute("mensajeOk", "Tus reservas activas");
 		return "reservas";
 	}
 	
@@ -63,9 +63,9 @@ public class ReservaController {
         
         if (edao.aforoRestante(reserva.getEvento().getIdEvento())+cantidad >= cantidad) {
         	rdao.guardarReserva(reserva);
-        	ratt.addFlashAttribute("mensaje", "Reserva modificada correctamente");
+        	ratt.addFlashAttribute("mensajeOk", "Tu Reserva del evento '"+reserva.getEvento().getNombre() +"' se ha modificado correctamente");
         } else {
-        	ratt.addFlashAttribute("mensaje", "La cantidad introducida es demaciado alta para el aforo disponible en este evento");
+        	ratt.addFlashAttribute("mensajeError", "La cantidad introducida es demaciado alta para el aforo disponible en este evento");
         }
         	
         return "redirect:/reserva";
@@ -76,9 +76,9 @@ public class ReservaController {
 		Reserva reserva = rdao.buscarPorIdReserva(idReserva);
        
         if (rdao.eliminarReserva(reserva)==1)
-        	ratt.addFlashAttribute("mensaje", "Reserva cancelada correctamente");
+        	ratt.addFlashAttribute("mensajeOk", "Reserva cancelada correctamente");
         else
-        	ratt.addFlashAttribute("mensaje", "Reserva NO cancelada");
+        	ratt.addFlashAttribute("mensajeError", "Reserva NO cancelada");
 
         return "redirect:/reserva";
     }
@@ -92,17 +92,17 @@ public class ReservaController {
 		System.out.println("Este es la reserva: "+ reserva);
 		
 		if (!evento.estaActivo() && evento.getEstado() == "TERMINADO" && evento.getEstado() == "CANCELADO") {
-			ratt.addFlashAttribute("mensaje", "No es posible reservar en este evento, verifique su estado o fecha de inicio");
+			ratt.addFlashAttribute("mensajeError", "No es posible reservar en este evento, verifique su estado o fecha de inicio");
 			return "redirect:/";
 		}
 		try {
 			if(rdao.guardarReserva(reserva) == 1) {
-			ratt.addFlashAttribute("mensaje", "Resreva agregada");
+			ratt.addFlashAttribute("mensajeOk", "Resreva agregada");
 			} else {
-				ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar la Resreva");
+				ratt.addFlashAttribute("mensajeError", "No ha sido posible Agregar la Resreva");
 			}
 		} catch (Exception e) {
-			ratt.addFlashAttribute("mensaje", "Ya ha hecho una reserva para este evento, puede modificarla aquí");
+			ratt.addFlashAttribute("mensajeError", "Ya ha hecho una reserva para este evento, puede modificarla aquí");
 			return "redirect:/reserva";
 		}
 		

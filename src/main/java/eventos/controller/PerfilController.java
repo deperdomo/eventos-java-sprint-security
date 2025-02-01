@@ -34,9 +34,9 @@ public class PerfilController {
 	@PostMapping("/agregar")
 	public String procNuevoPerfil(Model model, RedirectAttributes ratt, Perfil perfil) {
 		if (pdao.insertarPerfil(perfil) == 1) {
-			ratt.addFlashAttribute("mensaje", "Perfil agregado");
+			ratt.addFlashAttribute("mensajeOk", "Perfil agregado");
 		} else {
-			ratt.addFlashAttribute("mensaje", "Perfil NO agregado");
+			ratt.addFlashAttribute("mensajeError", "Perfil NO agregado");
 		}
 		return "redirect:/perfil";
 	}
@@ -51,9 +51,9 @@ public class PerfilController {
 	public String procEditarTipo(RedirectAttributes ratt, Perfil perfil) {
 		
 		if (pdao.insertarPerfil(perfil)==1)
-        	ratt.addFlashAttribute("mensaje", "Perfil editado");
+        	ratt.addFlashAttribute("mensajeOk", "Perfil editado");
         else
-            ratt.addFlashAttribute("mensaje", "Perfil NO editado");
+            ratt.addFlashAttribute("mensajeError", "Perfil NO editado");
 		
 		return "redirect:/perfil";
 	}

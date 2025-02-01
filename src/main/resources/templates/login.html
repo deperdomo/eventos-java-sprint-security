@@ -11,6 +11,9 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
             <h3 class="text-center mb-4">Login</h3>
+            <div th:if="${mensajeOk}" class="alert alert-success text-center">
+            	<span th:text="${mensajeOk}"></span>
+            </div>
             <!-- Mensaje de error si el login no funciona -->
 	        <div th:if="${mensajeErrorLogin}" class="alert alert-danger text-center">
 	            <span th:text="${mensajeErrorLogin}"></span>

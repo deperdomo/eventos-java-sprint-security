@@ -40,7 +40,7 @@ public class EventoController {
 	public String getTodos(Model model) {
 	    model.addAttribute("eventos", edao.buscarTodos());
 	    model.addAttribute("tipos", tdao.buscarTodos());
-	    model.addAttribute("mensaje", "Todos los eventos");
+	    model.addAttribute("mensajeOk", "Todos los eventos");
 		return "eventos";
 	}
 	
@@ -48,7 +48,7 @@ public class EventoController {
 	public String getCancelados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorEstado("CANCELADO"));
 	    model.addAttribute("tipos", tdao.buscarTodos());
-	    model.addAttribute("mensaje", "Eventos cancelados");
+	    model.addAttribute("mensajeOk", "Eventos cancelados");
 		return "eventos";
 	}
 	
@@ -56,7 +56,7 @@ public class EventoController {
 	public String getTerminados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorEstado("TERMINADO"));
 	    model.addAttribute("tipos", tdao.buscarTodos());
-	    model.addAttribute("mensaje", "Eventos terminados");
+	    model.addAttribute("mensajeOk", "Eventos terminados");
 		return "eventos";
 	}
 	
@@ -70,7 +70,7 @@ public class EventoController {
 		}
 	    model.addAttribute("eventos", eventosActivos);
 	    model.addAttribute("tipos", tdao.buscarTodos());
-	    model.addAttribute("mensaje", "Eventos activos");
+	    model.addAttribute("mensajeOk", "Eventos activos");
 		return "eventos";
 	}
 	
@@ -78,7 +78,7 @@ public class EventoController {
 	public String getDestacados(Model model) {
 	    model.addAttribute("eventos", edao.buscarPorDestacados("S"));
 	    model.addAttribute("tipos", tdao.buscarTodos());
-	    model.addAttribute("mensaje", "Eventos destacados");
+	    model.addAttribute("mensajeOk", "Eventos destacados");
 		return "eventos";
 	}
 	
@@ -86,7 +86,7 @@ public class EventoController {
 	public String getByTipo(Model model, @PathVariable int idTipo) {
 		model.addAttribute("tipos", tdao.buscarTodos());
 	    model.addAttribute("eventos", edao.buscarPorTipo(tdao.buscarPorId(idTipo)));
-	    model.addAttribute("mensaje", "Eventos de tipo "+tdao.buscarPorId(idTipo).getNombre());
+	    model.addAttribute("mensajeOk", "Eventos de tipo "+tdao.buscarPorId(idTipo).getNombre());
 		return "eventos";
 	}
 	
@@ -104,9 +104,9 @@ public class EventoController {
 		Tipo tipo = tdao.buscarPorId(idTipo);
 		evento.setTipo(tipo);
 		if(edao.agregarEvento(evento) == 1) {
-			ratt.addFlashAttribute("mensaje", "Evento agregado");
+			ratt.addFlashAttribute("mensajeOk", "Evento agregado");
 		} else {
-			ratt.addFlashAttribute("mensaje", "No ha sido posible Agregar el evento");
+			ratt.addFlashAttribute("mensajeError", "No ha sido posible Agregar el evento");
 		}
 	    return "redirect:/";  
 	}
@@ -121,7 +121,7 @@ public class EventoController {
             model.addAttribute("tipos", tdao.buscarTodos());
             return "editarEvento";
         } else {
-            model.addAttribute("mensaje", "Evento no existe");
+            model.addAttribute("mensajeError", "Evento no existe");
             return "forward:/";
         }
     }
@@ -133,9 +133,9 @@ public class EventoController {
         System.out.println("Evento que me llega del formulario: "+evento);
 
         if (edao.agregarEvento(evento)==1)
-        	ratt.addFlashAttribute("mensaje", "Evento editado");
+        	ratt.addFlashAttribute("mensajeOk", "Evento editado");
         else
-            ratt.addFlashAttribute("mensaje", "Evento NO editado");
+            ratt.addFlashAttribute("mensajeError", "Evento NO editado");
 
             return "redirect:/";
     }
@@ -146,9 +146,9 @@ public class EventoController {
 		evento.setEstado("CANCELADO");
        
         if (edao.agregarEvento(evento)==1)
-        	ratt.addFlashAttribute("mensaje", "Evento cancelado");
+        	ratt.addFlashAttribute("mensajeOk", "Evento cancelado");
         else
-        	ratt.addFlashAttribute("mensaje", "Eveto NO cancelado");
+        	ratt.addFlashAttribute("mensajeError", "Eveto NO cancelado");
 
             return "redirect:/";
     }
@@ -158,11 +158,11 @@ public class EventoController {
 		Evento evento = edao.buscarPorId(idEvento);
        try {
 		if (edao.eliminarEvento(evento)==1)
-        	ratt.addFlashAttribute("mensaje", "Evento eliminado");
+        	ratt.addFlashAttribute("mensajeOk", "Evento eliminado");
 	        else
-	        	ratt.addFlashAttribute("mensaje", "Eveto NO eliminado");
+	        	ratt.addFlashAttribute("mensajeError", "Eveto NO eliminado");
 		} catch (Exception e) {
-			ratt.addFlashAttribute("mensaje", "Este evento tiene reservas, no se puede eliminar");
+			ratt.addFlashAttribute("mensajeError", "Este evento tiene reservas, no se puede eliminar");
 		}
             return "redirect:/";
     }
@@ -177,7 +177,7 @@ public class EventoController {
             System.out.println("Este es el aforo reservado "+ edao.aforoRestante(idEvento));
             return "verDetalleEvento";
         } else {
-            model.addAttribute("mensaje", "Evento no existe");
+            model.addAttribute("mensajeError", "Evento no existe");
             return "forward:/";
         }
     }
